@@ -1,0 +1,106 @@
+mixin apiVersionOptions
+  -
+    const firstYear = 2019;
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+ 
+    let list = [];
+    for(let year=firstYear; year<=currentYear; year++){
+      const firstMonth =  year === 2019 ? 4 : 1;
+      for(let month=firstMonth; month<=12; month+=3){
+        if((month + year*12) <= (currentMonth + currentYear*12)){
+          const monthText = month < 10 ? '0' + month : month;
+          list.push(year + '-' + monthText)
+        }
+      }
+    }
+
+    // keep only the last four api versions
+    if(list.length > 4){
+      const listLength = list.length;
+      for(let i=0; i<listLength - 4; i++){
+        list.shift();
+      }
+    }
+
+  each item in list
+    - const selected = shopify_api_version === item ? true : false
+    option(
+      value= item
+      selected= selected
+    )
+      | #{item}
+
+form.form-horizontal(
+  id='shopify_api_config'
+  name='shopify_api_config'
+  action='/handy/shopify/config?saveType=api'
+  method='post'
+  role='form'
+)
+  include ../../../handy/views/components/csrf.pug
+
+  .row
+    .col-offset-1.col-12
+      .card.bg-light.mb-2
+        .card-body
+          h4.card-title Shopify App Configuration
+          h5.card-subtitle.mb-2 Credentials and installation information
+
+          .form-group
+            label.control-label(for='shopify_api_key') Shopify API Key
+            input.form-control(
+              type='text'
+              id='shopify_api_key'
+              name='shopify_api_key'
+              placeholder='API key from Shopify Partner App dashboard'
+              required=true
+              value= shopify_api_key
+            )
+
+          .form-group
+            label.control-label(for='shopify_shared_secret') Shopify API Secret Key
+            input.form-control(
+            type='text'
+            id='shopify_shared_secret'
+            name='shopify_shared_secret'
+            placeholder='Shared secret from Shopify Partner App dashboard'
+            required=true
+            value= shopify_shared_secret
+            )
+
+          .form-group
+            label.control-label(for='shopify_api_scope') Shopify API Scope
+            input.form-control(
+            type='text'
+            id='shopify_api_scope'
+            name='shopify_api_scope'
+            placeholder='App permissions scope'
+            required=true
+            value= shopify_api_scope
+            )
+
+          .form-group
+            label.control-lable(for='shopify_api_version') Shopify API Version
+            select.form-control(
+              id='shopify_api_version'
+              name='shopify_api_version'
+              required=true
+              value= shopify_api_version
+            )
+              +apiVersionOptions()
+
+          .form-group
+            label.control-label(for='shopify_redirect_url') Shopify Redirect URL
+            input.form-control(
+            type='text'
+            id='shopify_redirect_url'
+            name='shopify_redirect_url'
+            placeholder='Redirect URL for Oauth calls'
+            readonly
+            value= shopify_redirect_url
+            )
+  .row
+    .col-offset-1.col-10
+      .form-group
+        button.btn.btn-primary(type='submit') Update shopify app configuration

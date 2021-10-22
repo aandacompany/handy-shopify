@@ -1,0 +1,15 @@
+extends ../../handy/views/templates/handy_template.pug
+
+block content
+
+  .container-fluid.spacer
+    .col-xs-offset-1.col-xs-10
+      .row
+        .col-xs-12
+          .well
+            h1 #{siteName}
+            p.lead Shopify App Installation
+
+      .row
+        .col-xs-12
+          include forms/shopify_install.pug

@@ -1,0 +1,56 @@
+extends ./templates/shopify_admin_template.pug
+
+block append content
+
+  main
+    section
+      .hidden#redirect_url
+        |#{pageInfo.redirect_url}
+    section.spacer
+      .column.two
+        | &nbsp;
+      .column.eight
+        h4 Additional access scope required
+        p A recent update requires you to authorize additional access scopes.  You will be redirected shortly to view and authorize the new access scope
+
+
+    footer
+      article
+        p Thanks for using Delivery Date by StreamThing.  We hope you are 100% satisfied
+
+        p Please contact us for any
+          a.modal_link(
+            href='#'
+            modal-type='mail'
+            data-target= siteURL + '/handy/shopify/modal?type=support&shop=' + shopify.myshopify_domain + '&app=deliverydate&to=' + support_email + '&subject=' + support_subject + '&prompt=Support+&placeholder=How can we help? (please describe your issue and provide your email address if you would like a response)'
+            data-to=support_email
+            data-from=shopify.myshopify_domain
+            data-subject=support_subject
+            data-prompt='Support'
+            data-message='How can we help? (please describe your issue and provide your email address if you would like a response)'
+
+          ) 
+            | support 
+          | you may need or to send 
+          a.modal_link(
+            href='#'
+            modal-type='mail'
+            data-target= siteURL + '/handy/shopify/modal?type=feedback&shop=' + shopify.myshopify_domain + '&app=deliverydate&to=' + support_email + '&subject=' + feedback_subject + "&prompt=Feedback&placeholder=What's on your mind? (please describe your feedback and provide your email address if you would like a response)"
+            data-to=support_email
+            data-from=shopify.myshopify_domain
+            data-subject=feedback_subject
+            data-prompt='Feedback'
+            data-message="What's on your mind? (please describe your feedback and provide your email address if you would like a response)"
+          )
+            | feedback 
+          | about our services
+        p &copy; StreamThing LLC
+        p Created in Palo Alto, CA
+
+
+
+block bottomscripts
+  script.
+    const redirect_url = document.getElementById('redirect_url').innerText;
+    const redirect = Redirect.create(app);
+    redirect.dispatch(Redirect.Action.REMOTE, redirect_url); 

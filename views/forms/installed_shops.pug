@@ -1,0 +1,79 @@
+-
+  let uninstalledShops = []
+  let inactiveShops = []
+  let activeShops = {}
+  let tempArray = [];
+
+  installed_shops.forEach((shop)=>{
+    if(!shop.installed){
+      uninstalledShops.push(shop)
+    } else {
+      tempArray.push(shop)
+    }
+  })
+
+  const inactiveShopifyPlans = ['frozen', 'closed']
+  tempArray.forEach((installed_shop)=>{
+    if(inactiveShopifyPlans.includes(installed_shop.shopify_plan)){
+      inactiveShops.push(installed_shop);
+    } else {
+      // create billing plan key in activeShops
+      const billingPlanName = installed_shop.billing_plan.name;
+      activeShops[billingPlanName] = activeShops[billingPlanName] || []
+      activeShops[billingPlanName].push(installed_shop)
+    }
+  })
+
+
+
+.row
+  .offset-1.col-10
+    table.table.table-hover.table-responsive
+      thead
+        tr
+          th(scope='col') Shop
+          th(scope='col') Owner
+          th(scope='col') Email
+          th(scope='col') Shopify plan
+      tbody
+        -
+          const plans = Object.keys(activeShops)
+
+        each plan in plans
+          tr
+            td(colspan='4')= 'App plan: ' + plan
+
+          - activeShopList = activeShops[plan]
+          each activeShop in activeShopList
+            tr
+              th(scope='row')
+                a(
+                  href='/handy/shopify/shop/' + activeShop.myshopify_domain 
+                  target='_blank'
+                )
+                  | #{activeShop.myshopify_domain}
+              td= activeShop.owner
+              td= activeShop.email
+              td= activeShop.shopify_plan
+
+        if uninstalledShops.length
+          tr
+            td(colspan='4') Uninstalled shops
+          
+          each uninstalledShop in uninstalledShops
+            tr
+              th(scope='row')= uninstalledShop.myshopify_domain
+              td= uninstalledShop.owner
+              td= uninstalledShop.email
+              td= uninstalledShop.shopify_plan
+
+        if inactiveShops.length
+          tr
+            td(colspan='4') Inactive shops
+          
+          each inactiveShop in inactiveShops
+            tr
+              th(scope='row')= inactiveShop.myshopify_domain
+              td= inactiveShop.owner
+              td= inactiveShop.email
+              td= inactiveShop.shopify_plan

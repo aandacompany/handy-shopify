@@ -1,0 +1,87 @@
+extends ../../handy/views/templates/handy_template.pug
+
+block content
+  //- get current values
+  -
+    let shopify_api_key = pageInfo.shopify_config.shopify_api_key || ''
+    let shopify_shared_secret = pageInfo.shopify_config.shopify_shared_secret || ''
+    let shopify_api_scope = pageInfo.shopify_config.shopify_api_scope || ''
+    let shopify_api_version = pageInfo.shopify_config.shopify_api_version || ''
+    let shopify_redirect_url = pageInfo.shopify_config.shopify_redirect_url || ''
+    let billing_plans = pageInfo.billingPlans || {}
+    let installed_shops = pageInfo.installedShops || []
+
+  .container-fluid.spacer.fill-screen-height
+    .row.justify-content-center
+      .col-10
+              h1 Shopify app configuration settings
+    .row.justify-content-center
+      .col-10
+        nav(
+          aria-label='breadcrumb'
+        )
+          ol.breadcrumb
+            li.breadcrumb-item
+              a(href='/') Home
+            li.breadcrumb-item
+              a(href='/handy/configuration') General settings
+            li.breadcrumb-item.active(
+              aria-current='page'
+            )
+              | Shopify settings
+
+
+    .row.justify-content-center
+      .col-10
+        .card
+          .card-header#tab-headers
+            ul.nav.nav-tabs.card-header-tabs
+              li.nav-item
+                a.nav-link.active(
+                  href='#shopify_api'
+                  data-toggle='tab'
+                  role='tab'
+                  aria-controls='Shopify API settings'
+                  aria-selected='true'
+                )
+                  | Shopify API settings
+
+              li.nav-item
+                a.nav-link(
+                  href='#shopify_billing'
+                  data-toggle='tab'
+                  role='tab'
+                  aria-controls='Shopify Billing Plans'
+                  aria-selected='false'
+                )
+                  | Shopify billing plans settings
+
+              li.nav-item
+                a.nav-link(
+                  href='#installed_shops'
+                  data-toggle='tab'
+                  role='tab'
+                  aria-controls='Installed shops'
+                  aria-selected='false'
+                )
+                  | Installed shops
+
+          .card-body
+            .tab-content
+              .tab-pane.fade.show.active#shopify_api(
+                role='tabpanel'
+                aria-labeledby='shopify-api-tab'
+              )
+                include forms/shopify_api.pug
+
+              .tab-pane.fade#shopify_billing(
+                role='tabpanel'
+                aria-labeledby='shopify_billing-tab'
+              )
+                include forms/shopify_billing_plan_list.pug
+
+              .tab-pane.fade#installed_shops(
+                role='tabpanel'
+                aria-labeledby='installed_shops-tab'
+              )
+                include forms/installed_shops.pug

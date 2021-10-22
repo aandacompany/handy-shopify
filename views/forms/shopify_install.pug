@@ -1,0 +1,31 @@
+form.form-inline(
+  id='shopify_install'
+  name='shopify_install'
+  action='/handy/shopify/install'
+  method='post'
+  role='form'
+)
+  include ../../../handy/views/components/csrf.pug
+
+  .row
+    .col-12
+      h4 Shopify Shop Domain
+  .row
+    .col-6
+      .form-group.form-group-lg
+        .input-group
+          .input-group-prepend
+            .input-group-text
+              | https://
+          input.form-control#shopify_shop_domain(
+            type='text'
+            placeholder='my_shop_name'
+            name='shopify_shop_domain'
+            required
+          )
+          .input-group-append
+            .input-group-text
+              | .myshopify.com
+
+    .col-2
+      button.btn.btn-primary(type='submit') Start installation

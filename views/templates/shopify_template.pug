@@ -1,0 +1,46 @@
+-
+  let shopify_myshopify_url = pageInfo.shopify.myshopify_domain
+  let {shopify_api_key, shopify_shared_secret, shopify_api_scope, shopify_redirect_url, 
+    myshopify_domain} = pageInfo.shopify;
+  const shopify = pageInfo.shopify
+
+  const handy_shopify_version = pageInfo.handy_module_versions.handy_shopify_version
+  const project_version = pageInfo.handy_module_versions.project_version
+  const siteURL = pageInfo.config.siteURL
+
+doctype html
+html(
+  lang='en'
+)
+
+  head
+    block metatag
+      meta(
+        name='viewport'
+        content="width=device-width, initial-scale=1"
+      )
+
+    block shopify_app
+      include ../components/shopify_app.pug
+
+    block topscripts
+
+    block topstyles
+
+    block additionalstyles
+  
+
+  body
+    block body
+
+      block header
+        
+      block fixed_navbar_spacer
+        
+      block messages
+        
+      block content
+
+      block footer
+        
+      block bottomscripts

@@ -1,0 +1,103 @@
+form.form-horizontal(
+  id='shopify_billing_config'
+  name='shopify_billing_config'
+  action='/handy/shopify/config?saveType=billing'
+  method='post'
+  role='form'
+)
+  include ../../../handy/views/components/csrf.pug
+
+  .row
+    .col-offset-1.col-10
+      table.table.table-hover.table-responsive
+        thead
+          tr
+            th(scope='col') Enabled
+            th(scope='col') Plan name
+            th(scope='col') Price
+            th(scope='col') Trial length (days)
+            th(scope='col') Test status
+        tbody
+          each plan in billing_plans
+            if !plan.deleted
+              tr
+                th(scope='row')
+                  .form-group.form-check
+                    input.form-check-input(
+                      type='checkbox'
+                      name='plan_active_' + plan.id
+                      id='plan_active_' + plan.id
+                      checked= plan.active
+                      value=true
+                    )
+                td= plan.name
+                td.text-right= plan.price
+                td.text-right= plan.trial_length
+                td.text-center= plan.test
+
+          tr
+            th(scope='row')
+              .form-group.form-check
+                input.form-check-input(
+                  type='checkbox'
+                  name='plan_active_new'
+                  id='plan_active_new'
+                  checked=false
+                  value=true
+                )
+            td
+              .form-group
+                input(
+                  type='text'
+                  name='plan_name_new'
+                  id='plan_name_new'
+                  placeholder='plan name'
+                )
+
+            td
+              .form-group
+                input(
+                  type='number'
+                  min=0
+                  max=99999
+                  step=0.01
+                  name='plan_price_new'
+                  id='plan_price_new'
+                  placeholder='plan price'
+                )
+
+            td
+              .form-group
+                input(
+                  type='number'
+                  min=0
+                  max=365
+                  step=1
+                  name='plan_trial_length_new'
+                  id='plan_trial_length_new'
+                  placeholder='trial length'
+                )
+
+            td
+              .form-check.form-check-inline
+                input.form-check-input(
+                  type='radio'
+                  name='plan_test_status_new'
+                  id='plan_test_status_true_new'
+                  value='true'
+                )
+                label.form-check-label(for='plant_test_status_true_new') True
+
+              .form-check.form-check-inline
+                input.form-check-input(
+                  type='radio'
+                  name='plan_test_status_new'
+                  id='plan_test_status_false_new'
+                  value='false'
+                )
+                label.form-check-label(for='plant_test_status_false_new') False
+
+  .row
+    .col-offset-1.col-10
+      .form-group
+        button.btn.btn-primary(type='submit') Update shopify billing configuration

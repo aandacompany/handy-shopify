@@ -1,0 +1,14 @@
+extends ./shopify_template.pug
+
+block topstyles
+  link(
+    rel='stylesheet'
+    type='text/css'
+    href='/css/shopify_billing.min.css?ver=' + handy_shopify_version
+  )
+
+block topscripts
+  script(
+    type='text/javascript'
+    src='/js/shopify_billing.min.js?ver=' + handy_shopify_version
+  )

@@ -1,0 +1,38 @@
+script(
+  src='https://unpkg.com/@shopify/app-bridge@1'
+)
+
+script(
+  src='https://unpkg.com/@shopify/app-bridge-utils'
+)
+
+script.
+  let shopify_api_key = '#{shopify_api_key}'
+  let shopify_api_scope = '#{shopify_api_scope}'
+  let shopify_redirect_url = '#{shopify_redirect_url}'
+  let myshopify_domain = '#{myshopify_domain}'
+  let AppBridgeUtils = window['app-bridge-utils']
+  let AppBridge = window['app-bridge']
+  let createApp = AppBridge.createApp
+  let actions = AppBridge.actions
+  let {TitleBar, Redirect, Button, ButtonGroup, Loading, Modal, History, 
+    ResourcePicker, Toast} = actions;
+  let appBridgeError = actions.Error;
+  
+  const permissionUrl = '/oauth/authorize?client_id=' + shopify_api_key + '&scope=' + 
+    shopify_api_scope + '&redirect_uri=' + shopify_redirect_url;
+  
+  let app = createApp({
+    apiKey: shopify_api_key,
+    shopOrigin: myshopify_domain 
+  })
+
+  const {getSessionToken} = AppBridgeUtils
+
+  if(window.top === window.self){
+    app.dispatch(Redirect.toApp({path: window.location.pathname}))
+  } else {
+
+    // Redirect.create(app).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
+  }
+  

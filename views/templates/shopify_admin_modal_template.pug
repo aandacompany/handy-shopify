@@ -1,0 +1,47 @@
+-
+  const handy_shopify_version = pageInfo.handy_module_versions.handy_shopify_version
+
+doctype html
+html(
+  lang='en'
+)
+
+  head
+    block metatag
+      meta(
+        name='viewport'
+        content="width=device-width, initial-scale=1"
+      )
+
+    block topscripts
+      script(
+        type='text/javascript'
+        src='/js/jquery.min.js?ver=' + handy_shopify_version
+      )
+
+      script(
+        type='text/javascript'
+        src='/js/bootstrap.bundle.min.js?ver=' + handy_shopify_version
+      )
+
+    block topstyles
+      link(
+        rel='stylesheet'
+        type='text/css'
+        href='/css/bootstrap.min.css?ver=' + handy_shopify_version
+      )
+
+    block additionalstyles
+
+  body
+    block body
+
+      block header
+        
+      block messages
+        
+      block content
+
+      block footer
+        
+      block bottomscripts

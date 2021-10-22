@@ -1,0 +1,210 @@
+extends ../../handy/views/templates/handy_template.pug
+
+mixin selectedOption(type, plan, emulations)
+  -
+    let selectedValue;
+    switch(type){
+      case 'shopify_plan':
+        selectedValue = emulations.shopify_plan || null
+        break;
+      case 'app_plan':
+        selectedValue = emulations.billing_plan || null
+        break;
+    }
+
+  if type === 'shopify_plan'
+    if plan === selectedValue
+      option(
+        value= plan
+        selected
+      )
+        | #{plan}
+    else      
+      option(
+        value= plan
+      )
+        | #{plan}
+
+
+  if type === 'app_plan'
+    if (plan.id === selectedValue) || (Number.parseInt(plan.id, 10) === Number.parseInt(selectedValue, 10))
+      option(
+        value= plan.id
+        selected
+      )
+        | #{plan.name}
+    else
+      option(
+        value= plan.id
+      )
+        | #{plan.name}
+
+
+block content
+  -
+    let {shop, billingPlans, shopifyPlans, emulations} = pageInfo
+    const displayKeys = [
+      'id', 'address1', 'address2', 'city', 'province', 'zip', 'country_code', 'country', 'owner',
+       'email', 'phone', 'domain', 'myshopify_domain', 'money_format', 'currency', 'shopify_plan',
+       'installed', 'billing_plan', 'shopify_created_at'
+    ];
+
+  .container-fluid.spacer.fill-screen-height
+    .row.justify-content-center
+      .col-10
+              h1 Shop details
+              h2= shop.myshopify_domain
+
+    .row.justify-content-center
+      .col-8
+        .card
+          .card-body
+            table.table.table-bordered
+              tbody
+                for key in displayKeys
+                  tr
+                    th(scope='row')
+                      p.text-right
+                        strong= key + ': '
+                    td
+                      | #{shop[key]}
+
+      .col-4
+        h2 Actions
+        .card.mb-2
+          .card-body
+            form(
+              action='/handy/shopify/updateShopThemeAssets'
+              method='post'
+            )
+              include ../../handy/views/components/csrf.pug
+
+              input(
+                type='hidden'
+                name='shop'
+                value= shop.myshopify_domain
+              )
+
+              button.btn.btn-secondary#updateShopAssets(
+                type='submit'
+              )
+                | Update shop theme assets
+
+        .card.mb-2
+          .card-body
+            form(
+              action='/handy/shopify/updateShopWebhooks'
+              method='post'
+            )
+              include ../../handy/views/components/csrf.pug
+
+              input(
+                type='hidden'
+                name='shop'
+                value= shop.myshopify_domain
+              )
+
+              button.btn.btn-secondary#updateShopWebhooks(
+                type='submit'
+              )
+                | Update shop webhooks
+
+        .card.mb-2
+          .card-body
+            form(
+              action='/handy/shopify/updateShopScriptTags'
+              method='post'
+            )
+              include ../../handy/views/components/csrf.pug
+
+              input(
+                type='hidden'
+                name='shop'
+                value= shop.myshopify_domain
+              )
+
+              button.btn.btn-secondary#updateShopScriptTags(
+                type='submit'
+              )
+                | Update shop script tags
+
+        .card.mb-2
+          .card-body
+            form(
+              action='/handy/shopify/emulate/shopify_plan'
+              method='post'
+            )
+              include ../../handy/views/components/csrf.pug
+
+              input(
+                type='hidden'
+                name='shop'
+                value= shop.myshopify_domain
+              )
+
+              .form-group
+                label(
+                  for='shopify_plan_list'
+                )
+                  | Emulated shopify plan
+
+                select.form-control#emulatedShopifyPlan(
+                  name='emulated_value'
+                  value=null
+                )
+                  +selectedOption('shopify_plan', null, emulations)
+                  each plan in shopifyPlans
+                    +selectedOption('shopify_plan', plan, emulations)
+
+              button.btn.btn-secondary#updateEmulatedShopifyPlan(
+                type='submit'
+              )
+                | Update emulated shopify plan
+
+        .card.mb-2
+          .card-body
+            form(
+              action='/handy/shopify/emulate/billing_plan'
+              method='post'
+            )
+              include ../../handy/views/components/csrf.pug
+
+              input(
+                type='hidden'
+                name='shop'
+                value= shop.myshopify_domain
+              )
+
+              .form-group
+                label(
+                  for='app_plan_list'
+                )
+                  | Emulated app plan
+
+                select.form-control#emulatedAppPlan(
+                  name='emulated_value'
+                )
+                  +selectedOption('app_plan', {id: null, name: null}, emulations)
+                  each plan in billingPlans
+                    +selectedOption('app_plan', plan, emulations)
+
+              button.btn.btn-secondary#updateEmulatedAppPlan(
+                type='submit'
+              )
+                | Update emulated app plan
+
+        .card.mb-2
+          .card-body
+            form(
+              action='/handy/shopify/nukeShopRecord'
+              method='post'
+            )
+              include ../../handy/views/components/csrf.pug
+
+              .p-3.mb-2.bg-danger.text-white
+                | WARNING: This will completely remove the database record for this shop.  This action cannot be undone. Proceed with caution
+
+              button.btn.btn-danger#nukeShopRecord(
+                type='submit'
+              )
+                | Nuke shop record              

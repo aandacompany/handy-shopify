@@ -1,0 +1,164 @@
+
+extends ../../handy/views/templates/handy_template.pug
+
+mixin tableRows(rows)
+  - let rowNumber = 0
+  each row in rows
+    - rowNumber++
+
+    tr
+      td= rowNumber
+      td
+        a(
+        href= '/handy/shopify/listshops/' + row.myshopify_domain
+        )
+          | #{row.myshopify_domain}
+      td= row.domain
+      td= row.owner
+      td= row.email
+
+
+block content
+  -
+    let shopList = pageInfo.shopList
+    let shopDetails = pageInfo.shopDetails
+
+  .container-fluid.spacer
+    .offset-1.col-10
+      if pageInfo.displayMode === 'all'
+        h2 Installed Shops
+
+        .table-responsive
+          table.table.table-striped.table-sm
+            tr
+              th
+              th Shopify Domain
+              th Site
+              th Owner
+              th Email
+            +tableRows(shopList)
+
+      if pageInfo.displayMode === 'single'
+        .row
+          .col-10
+            h2 Shop: 
+              a(
+                href= 'http://' + shopDetails.myshopify_domain
+              ) 
+                | #{shopDetails.myshopify_domain}
+          
+          .col-2
+            a.button.btn-default(
+              href='/handy/shopify/listshops'
+            )
+              | << back
+        
+        .row
+          .col-12
+            hr
+
+        .row
+          .col-9
+            p 
+              strong
+                | Owner: 
+              | #{shopDetails.owner}
+            p 
+              strong
+                | Email: 
+              | #{shopDetails.email}
+            p 
+              strong
+                | Phone: 
+              | #{shopDetails.phone}
+            p 
+              strong
+                | Url: 
+              a(
+                href= 'http://' + shopDetails.domain
+              )
+                | #{shopDetails.domain}
+            p 
+              strong
+                | Address1: 
+              | #{shopDetails.address1}
+            p 
+              strong
+                | Address2: 
+              | #{shopDetails.address2}
+            p 
+              strong
+                | City: 
+              | #{shopDetails.city}
+            p 
+              strong
+                | Country: 
+              | #{shopDetails.country}
+            p 
+              strong
+                | Installed Date: 
+              | #{shopDetails.createdate}
+
+          .col-3
+            form(
+              action='/handy/shopify/updateShopThemeAssets'
+              method='post'
+            )
+              include ../../handy/views/components/csrf.pug
+
+              input(
+                type='hidden'
+                name='shop'
+                value= shopDetails.myshopify_domain
+              )
+
+              button.btn.btn-primary#updateShopAssets(
+                type='submit'
+              )
+                | Update Shop Theme Assets
+
+            p
+
+            form(
+              action='/handy/shopify/updateShopWebhooks'
+              method='post'
+            )
+              include ../../handy/views/components/csrf.pug
+
+              input(
+                type='hidden'
+                name='shop'
+                value= shopDetails.myshopify_domain
+              )
+
+              button.btn.btn-primary#updateShopWebhooks(
+                type='submit'
+              )
+                | Update Shop Webhooks
+
+            p
+
+            form(
+              action='/handy/shopify/updateShopScriptTags'
+              method='post'
+            )
+              include ../../handy/views/components/csrf.pug
+
+              input(
+                type='hidden'
+                name='shop'
+                value= shopDetails.myshopify_domain
+              )
+
+              button.btn.btn-primary#updateShopScriptTags(
+                type='submit'
+              )
+                | Update Shop Script Tags
+
+
+            p
+
+            button.btn.btn-danger#nukeShopRecord(
+              formaction='/handy/shopify/nukeShopRecord'
+            )
+              | Nuke Shop Database Record

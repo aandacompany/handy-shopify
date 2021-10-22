@@ -1,0 +1,92 @@
+extends ../../handy/views/templates/handy_template.pug
+
+block append head
+  script(
+    src='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js'
+  )
+
+  script(
+    src='/js/shopify_analytics.min.js'
+  )
+
+block content
+  .container-fluid.spacer.fill-screen-height
+    .row.justify-content-center
+      .col-10
+              h1 Shopify app analytics
+
+    .row.spacer
+      .offset-1.col-10
+        form.form-inline
+
+          include ../../handy/views/components/csrf.pug
+
+          input#start.form-control.mb-2.mr-2(
+            type='date'
+            placeholder='start date'
+            step=1
+          )
+
+          input#end.form-control.mb-2.mr-2(
+            type='date'
+            placeholder='end date'
+            step=1
+          )
+
+          button#submit.btn.btn-primary.mb-2(
+            type='submit'
+          )
+            | Get report
+
+    .row.mb-3
+      .offset-1.col-10
+        h4 MRR
+        canvas#mrr(
+          width=400
+          height=100
+        )
+
+    .row.mb-5
+      .offset-1.col-10
+        #mrr_stats
+
+    .row.mb-5
+      .offset-1.col-10
+        h4 Customer count
+        canvas#customer_count(
+          width=400
+          height=100
+        )
+
+
+    .row.mb-3
+      .offset-1.col-10
+        h4 Customer adds
+        canvas#customer_adds(
+          width=400
+          height=100
+        )
+
+    .row.mb-5
+      .offset-1.col-10
+        #customer_adds_stats
+
+    .row.mb-3
+      .offset-1.col-10
+        h4 Customer losses
+        canvas#customer_losses(
+          width=400
+          height=100
+        )
+
+    .row.mb-5
+      .offset-1.col-10
+        #customer_losses_stats
+
+    .row.mb-5
+      .offset-1.col-10
+        h4 Plan changes
+        canvas#plan_changes(
+          width=400
+          height=100
+        )

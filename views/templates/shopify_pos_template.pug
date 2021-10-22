@@ -1,0 +1,74 @@
+-
+  let shopify_myshopify_url = pageInfo.shopify.myshopify_domain
+  let {shopify_api_key, shopify_shared_secret, shopify_api_scope, shopify_redirect_url, 
+    myshopify_domain} = pageInfo.shopify;
+  const shopify = pageInfo.shopify
+
+  const handy_shopify_version = pageInfo.handy_module_versions.handy_shopify_version
+  const project_version = pageInfo.handy_module_versions.project_version
+  const siteURL = pageInfo.config.siteURL
+
+doctype html
+html(
+  lang='en'
+)
+
+  head
+    block metatag
+      meta(
+        name='viewport'
+        content="width=device-width, initial-scale=1"
+      )
+
+    block shopify_pos
+      include ../components/shopify_pos.pug
+
+    block topscripts
+
+    block topstyles
+      //link(
+      // rel='stylesheet'
+      //  type='text/css'
+      //  href='/css/shopify_admin.min.css?ver=' + handy_shopify_version
+      //)
+
+
+    block additionalstyles
+  
+
+  body
+    block body
+
+      block header
+        
+      block fixed_navbar_spacer
+        
+      block messages
+        
+      block content
+        -
+          // process any messages that need to be displayed
+          pageInfo.state = pageInfo.state || {};
+          pageInfo.state.message = pageInfo.state.message || {};
+
+          let messages = pageInfo.messages || [];
+          let notices = [];
+          let errors = [];
+
+          // add any messages already in the state
+          pageInfo.state.message.notice ? notices.push(pageInfo.state.message.notice) : null;
+          pageInfo.state.message.error ? errors.push(pageInfo.state.message.error) : null;
+
+          messages.forEach((message)=>{
+            message.type === 'error' ? errors.push(message.text) : null;
+            message.type === 'notice' ? notices.push(message.text) : null;
+          })
+
+          notices = notices.join(', ');
+          errors = errors.join(', ');
+          pageInfo.state.message.notice = notices;
+          pageInfo.state.message.error = errors;
+
+      block footer
+        
+      block bottomscripts

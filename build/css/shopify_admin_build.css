@@ -1,0 +1,80 @@
+.tab_section {
+  display: none;
+}
+
+.tab_section.active{
+  display: inline;
+}
+
+.hidden {
+  display: none;
+}
+
+.help_text {
+  color: grey;
+  font-size: 1em;
+}
+
+.header_background::before {
+  background-image: url('/img/admin_banner.png');
+  background-repeat: round;
+  content: '';
+  opacity: 0.8;
+  top:0;
+  left:0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
+
+.header_text {
+  position: absolute;
+  top:20%;
+  bottom: 20%;
+  left: 20%;
+  right: 20%;
+  padding-top: 20px;
+  background-color: rgba(220,220,220,0.9);
+  color: rgb(0,48,78);
+  border-radius: 5px;
+}
+
+@media (max-width: 800px){
+  /* modify admin header to display properly on small screens */
+  .header_text {
+    top:30px;
+    bottom: 30px;
+    left: 15vw;
+    right: 15vw;
+  }
+
+  /* expand card displays on small screens */
+  .xs-expand {
+    width: 220% !important;
+  }
+}
+
+.no_bullets_unordered_list {
+  list-style-type: none;
+}
+
+
+/* display embeded Youtube video on installation section in 16by9 responsive format */
+.responsive-embed-container-16by9 {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+}
+
+.responsive-embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.underline {
+  overflow: overlay;
+}
