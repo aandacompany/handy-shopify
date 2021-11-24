@@ -11,6 +11,7 @@ script.
   let shopify_api_scope = '#{shopify_api_scope}'
   let shopify_redirect_url = '#{shopify_redirect_url}'
   let myshopify_domain = '#{myshopify_domain}'
+  let myshopify_host = '#{myshopify_host}'
   let AppBridgeUtils = window['app-bridge-utils']
   let AppBridge = window['app-bridge']
   let createApp = AppBridge.createApp
@@ -21,10 +22,10 @@ script.
   
   const permissionUrl = '/oauth/authorize?client_id=' + shopify_api_key + '&scope=' + 
     shopify_api_scope + '&redirect_uri=' + shopify_redirect_url;
-  
+
   let app = createApp({
     apiKey: shopify_api_key,
-    shopOrigin: myshopify_domain 
+    host: myshopify_host
   })
 
   const {getSessionToken} = AppBridgeUtils
@@ -35,4 +36,3 @@ script.
 
     // Redirect.create(app).dispatch(Redirect.Action.ADMIN_PATH, permissionUrl);
   }
-  
