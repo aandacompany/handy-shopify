@@ -23,11 +23,6 @@ script.
   const permissionUrl = '/oauth/authorize?client_id=' + shopify_api_key + '&scope=' +
           shopify_api_scope + '&redirect_uri=' + shopify_redirect_url;
 
-  let app = createApp({
-    apiKey: shopify_api_key,
-    host: myshopify_host
-  })
-
   const {getSessionToken} = AppBridgeUtils
 
   if(window.top === window.self){
