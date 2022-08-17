@@ -6,6 +6,8 @@ let express = require('express')
   , handy = require('@takinola/handy')
   , shopify = require(path.join(__dirname, '..', 'lib', 'handy-shopify' ))
   ;
+const { _uninstallShop } = require('@takinola/handy-shopify')
+
 
 module.exports = function(app){
   const shopifyRouter = express.Router();
@@ -307,7 +309,9 @@ module.exports = function(app){
         shop: JSON.stringify(shop)
       }
 
-      return handy.system.insertQueueItem(queueType, queueLockStatus, payload);
+      // instead adding job (deleting store) to queue, we do it (run job) right now (to prevent issue with gap when shop can't be reinstalled)
+      return _uninstallShop(shop)
+      // return handy.system.insertQueueItem(queueType, queueLockStatus, payload);
     })
     .then(()=>{
       handy.system.log({req, level: 'info', category: 'system', msg: 'webhook - app_uninstalled handler success', shop: shop.myshopify_domain});
