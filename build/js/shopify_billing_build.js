@@ -163,29 +163,31 @@
       return cookieCheck;
    }
 
+   /*
    // display or hide message requesting authorization to set cookies
-   // function hideCookieAuthorizationNotice(flag){
-   //  // show cookie authorization notice
-   //  const cookieAuth = document.getElementById('cookie-authorization');
-   //  if(cookieAuth && !flag){
-   //    cookieAuth.classList.remove('hidden');
-   //  } else {
-   //    const billingContent = document.getElementById('billing-content');
-   //    if(billingContent){
-   //      billingContent.classList.remove('hidden');
-   //    }
-   //  }
-   // 
-   //  // add event listener to button
-   //  const protocol = window.location.protocol;
-   //  const host = window.location.host;
-   //  const destination = protocol + '//' + host;
-   //  const cookieAllowButton = document.getElementById('allow_cookie');
-   //  if(cookieAllowButton){
-   //    cookieAllowButton.addEventListener('click', addCookie.bind(null, destination));
-   //  }
-   //
-   // }
+   function hideCookieAuthorizationNotice(flag){
+    // show cookie authorization notice
+    const cookieAuth = document.getElementById('cookie-authorization');
+    if(cookieAuth && !flag){
+      cookieAuth.classList.remove('hidden');
+    } else {
+      const billingContent = document.getElementById('billing-content');
+      if(billingContent){
+        billingContent.classList.remove('hidden');
+      }
+    }
+
+    // add event listener to button
+    const protocol = window.location.protocol;
+    const host = window.location.host;
+    const destination = protocol + '//' + host;
+    const cookieAllowButton = document.getElementById('allow_cookie');
+    if(cookieAllowButton){
+      cookieAllowButton.addEventListener('click', addCookie.bind(null, destination));
+    }
+
+   }
+   */
 
   function addCookie(destination, e){
     e.preventDefault();
