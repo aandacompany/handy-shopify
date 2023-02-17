@@ -96,10 +96,28 @@ gulp.task('build-shopify_admin_styles', ()=>{
   .pipe(gulp.dest('./public/css'))
 })
 
+// shopify app-bridge
+gulp.task('copy-app-bridge', function() {
+  return gulp.src([
+    './build/js/app-bridge.min.js',
+    './build/js/app-bridge-utils.min.js'
+  ])
+    .pipe(gulp.dest('./public/js'))
+});
+
 // set watch tasks
 gulp.task('watch', ()=>{
   gulp.watch('build/js/*.js', gulp.parallel('build-shopify_billing', 'build-shopify_analytics'));
   gulp.watch('build/css/*.css', gulp.parallel('build-shopify_billing_styles', 'build-shopify_admin_styles'));
 });
 
-gulp.task('default', gulp.parallel('build-shopify_billing', 'build-shopify_analytics', 'build-shopify_billing_styles', 'build-shopify_admin_styles', 'watch'));
+gulp.task('default',
+  gulp.parallel(
+    'build-shopify_billing',
+    'build-shopify_analytics',
+    'build-shopify_billing_styles',
+    'build-shopify_admin_styles',
+    'copy-app-bridge',
+    'watch'
+  )
+);
