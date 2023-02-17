@@ -90,7 +90,7 @@ gulp.task('build-shopify_billing_styles', ()=>{
 
 // shopify admin styles
 gulp.task('build-shopify_admin_styles', ()=>{
-  return gulp.src(['./build/css/uptown.css', './build/css/shopify_admin_build.css'])
+  return gulp.src(['./build/css/uptown.css', '../handy/build/css/handy_build.css', './build/css/shopify_admin_build.css'])
   .pipe(concat('shopify_admin.min.css'))
   .pipe(cleanCSS({compatibility: '*'}))
   .pipe(gulp.dest('./public/css'))
